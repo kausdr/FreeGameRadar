@@ -11,8 +11,8 @@ interface UserDao {
     @Insert
     fun insert(user: User)
 
-    @Query("SELECT * FROM user LIMIT 1")
-    fun getUser(): User?
+    @Query("SELECT * FROM user WHERE name = :name AND password = :password LIMIT 1")
+    fun getUser(name: String, password: String): User?
 
     @Delete
     fun delete(user: User)

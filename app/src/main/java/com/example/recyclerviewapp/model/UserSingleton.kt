@@ -6,12 +6,12 @@ import com.example.recyclerviewapp.model.Singleton.dao
 
 object UserSingleton {
     var user: User? = null
-    private lateinit var userDao: UserDao
+    lateinit var userDao: UserDao
 
     fun init(context: Context) {
         UserDatabase.getInstance(context)?.apply {
             userDao = userDao()
-            user = userDao.getUser()
+//            user = userDao.getUser()
         }
     }
 
