@@ -16,7 +16,6 @@ object Singleton {
 
     }
 
-
     fun addCity(city: City) {
         dao.insert(city)
         cities = dao.getAll()

@@ -12,7 +12,10 @@ import com.example.recyclerviewapp.model.City
 import com.example.recyclerviewapp.R
 import com.example.recyclerviewapp.model.Singleton
 import com.example.recyclerviewapp.databinding.ActivityMainBinding
+import com.example.recyclerviewapp.model.UserSingleton
 import com.example.recyclerviewapp.presenter.MainRecyclerViewAdapter
+import com.example.recyclerviewapp.viewmodel.LoginViewModel
+import com.example.recyclerviewapp.viewmodel.LoginViewModelFactory
 import com.example.recyclerviewapp.viewmodel.MainViewModel
 import com.example.recyclerviewapp.viewmodel.MainViewModelFactory
 
@@ -20,6 +23,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
+    private lateinit var loginViewModel: LoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +32,10 @@ class MainActivity : AppCompatActivity() {
         Singleton.init(this)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+        UserSingleton.init(this)
+
+        loginViewModel = LoginViewModelFactory(UserSingleton.userDao).create(LoginViewModel::class.java)
 
         viewModel = MainViewModelFactory().create(MainViewModel::class.java)
 

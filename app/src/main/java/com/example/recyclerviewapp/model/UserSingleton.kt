@@ -11,21 +11,26 @@ object UserSingleton {
     fun init(context: Context) {
         UserDatabase.getInstance(context)?.apply {
             userDao = userDao()
-//            user = userDao.getUser()
         }
     }
-
-//    fun getUser(): User? {
-//        return user
-//    }
 
     fun addUser(newUser: User) {
         userDao.insert(newUser)
         user = newUser
     }
 
-    fun deleteUser(user: User) {
 
+    fun updateFilmes(user: User) {
+        userDao.update(user)
+    }
+
+    fun deleteUser(user: User) {
         userDao.delete(user)
     }
+
+    fun getUserById(userId: Int): User? {
+        user = userDao.getUserById(userId)
+        return user
+    }
 }
+
