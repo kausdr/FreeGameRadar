@@ -27,7 +27,7 @@ class SignUp : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.signup_activity)
-        
+
         UserSingleton.init(this)
 
         loginViewModel = LoginViewModelFactory(UserSingleton.userDao).create(LoginViewModel::class.java)

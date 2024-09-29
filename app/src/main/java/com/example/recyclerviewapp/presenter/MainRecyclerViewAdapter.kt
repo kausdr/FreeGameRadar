@@ -1,51 +1,67 @@
 package com.example.recyclerviewapp.presenter
 
-import android.util.Log
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recyclerviewapp.databinding.RecyclerItemBinding
-import com.example.recyclerviewapp.model.City
-import com.example.recyclerviewapp.model.Singleton
+import com.example.recyclerviewapp.model.Filme
+import com.example.recyclerviewapp.view.Detail
 
-class MainRecyclerViewAdapter(val itemClickListener: ItemClickListener?) :RecyclerView.Adapter<MainRecyclerViewAdapter.ViewHolder>() {
-    interface ItemClickListener{
-        fun onClick(view: View, position:Int)
-        fun onLongClick(view: View, position:Int)
+class MainRecyclerViewAdapter(val itemClickListener: ItemClickListener?) : RecyclerView.Adapter<MainRecyclerViewAdapter.ViewHolder>() {
+
+    var filmes = mutableListOf<Filme>()
+
+    interface ItemClickListener {
+        fun onClick(view: View, position: Int)
+        fun onLongClick(view: View, position: Int)
     }
-    inner class ViewHolder(val binding: RecyclerItemBinding) :RecyclerView.ViewHolder(binding.root){
-        fun bind(city: City){
+
+    inner class ViewHolder(val binding: RecyclerItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(filme: Filme) {
             binding.apply {
-                textView1.text = city.name
-                textView2.text = city.population.toString()
+                textView1.text = filme.title
+                textView2.text = filme.overview
                 root.setOnClickListener {
-                    itemClickListener?.onClick(binding.root,adapterPosition)
+
+                    val context = root.context
+                    val intent = Intent(context, Detail::class.java).apply {
+                        putExtra("movie_title", filme.title)
+                        putExtra("movie_description", filme.overview)
+                    }
+                    context.startActivity(intent)
+
+                    itemClickListener?.onClick(binding.root, adapterPosition)
                 }
                 root.setOnLongClickListener {
-                    itemClickListener?.onLongClick(binding.root,adapterPosition)
+                    itemClickListener?.onLongClick(binding.root, adapterPosition)
                     true
                 }
             }
         }
     }
-    var counter = 0
+
+    fun addAll(filmes: List<Filme>) {
+        this.filmes.clear()
+        this.filmes.addAll(filmes)
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = RecyclerItemBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
-            false)
-        counter++
-        Log.d("Recycler","onCreateViewHolder $counter")
+            false
+        )
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Singleton.cities[position].apply {
+        filmes[position].apply {
             holder.bind(this)
         }
-        Log.d("Recycler","onBindViewHolder $position")
     }
-    override fun getItemCount() = Singleton.cities.size
 
+    override fun getItemCount() = filmes.size
 }

@@ -51,9 +51,16 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
+
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
+
     kapt(libs.room.compiler)
     annotationProcessor(libs.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+
 }
