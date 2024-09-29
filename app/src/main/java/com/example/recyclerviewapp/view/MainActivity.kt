@@ -1,6 +1,7 @@
 package com.example.recyclerviewapp.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -8,7 +9,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.recyclerviewapp.model.City
 import com.example.recyclerviewapp.R
 import com.example.recyclerviewapp.model.Singleton
 import com.example.recyclerviewapp.databinding.ActivityMainBinding
@@ -18,12 +18,15 @@ import com.example.recyclerviewapp.viewmodel.LoginViewModel
 import com.example.recyclerviewapp.viewmodel.LoginViewModelFactory
 import com.example.recyclerviewapp.viewmodel.MainViewModel
 import com.example.recyclerviewapp.viewmodel.MainViewModelFactory
+import com.example.recyclerviewapp.model.Filme
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
     private lateinit var loginViewModel: LoginViewModel
+    private lateinit var adapter: MainRecyclerViewAdapter
+    private var filmesList = mutableListOf<Filme>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,14 +39,28 @@ class MainActivity : AppCompatActivity() {
         UserSingleton.init(this)
 
         loginViewModel = LoginViewModelFactory(UserSingleton.userDao).create(LoginViewModel::class.java)
-
         viewModel = MainViewModelFactory().create(MainViewModel::class.java)
 
-        viewModel.citiesLiveData.observe(this) {
-            (binding.mainRecyclerView.adapter as? MainRecyclerViewAdapter)?.notifyDataSetChanged()
+        setupRecyclerView()
+
+        loginViewModel.fetchPopularMovies("5c308328e2231e55206210b20a696644")
+
+        loginViewModel.filmesList.observe(this) { filmes ->
+            adapter.addAll(filmes)
+            Log.d("MainActivity", "Filmes recebidos: ${filmes.size}")
         }
 
-        val spanCount = 4
+
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+    }
+
+    private fun setupRecyclerView() {
+        val spanCount = 2
         val spacing = resources.getDimensionPixelSize(R.dimen.grid_item_spacing)
         val includeEdge = true
 
@@ -51,7 +68,7 @@ class MainActivity : AppCompatActivity() {
         binding.mainRecyclerView.layoutManager = layoutManager
         binding.mainRecyclerView.addItemDecoration(GridSpacingItemDecoration(spanCount, spacing, includeEdge))
 
-        binding.mainRecyclerView.adapter = MainRecyclerViewAdapter(object: MainRecyclerViewAdapter.ItemClickListener {
+        adapter = MainRecyclerViewAdapter(object : MainRecyclerViewAdapter.ItemClickListener {
             override fun onClick(view: View, position: Int) {
                 Singleton.cities[position].apply {
                     population += 100
@@ -65,20 +82,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        binding.button.setOnClickListener {
-            viewModel.addCity(
-                City(
-                    0, "City ${Singleton.cities.size}",
-                    Singleton.cities.size * 1000000
-                )
-            )
-        }
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+        binding.mainRecyclerView.adapter = adapter
     }
 
     override fun onResume() {

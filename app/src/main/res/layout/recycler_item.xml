@@ -3,24 +3,34 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="100sp"
+        android:backgroundTint="#FFFFFF"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#8B9AF4" />
 
         <TextView
             android:id="@+id/textView1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@android:string/untitled"
+            android:text="Título do Item"
+            android:textAlignment="center"
             android:textSize="24sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@android:string/untitled"
-            android:textAlignment="viewEnd" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Descrição do item"
+            android:textAlignment="center" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#8B9AF4" />
     </LinearLayout>
 </layout>

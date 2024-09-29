@@ -2,6 +2,7 @@ package com.example.recyclerviewapp.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -41,22 +42,23 @@ class Login : AppCompatActivity() {
 
 
         login.setOnClickListener {
-            if ((nameField.text.toString() != "" ) && (password.text.toString() != "")) {
+            if (nameField.text.toString().isNotEmpty() && password.text.toString().isNotEmpty()) {
                 val userExist = loginViewModel.verifyUser(nameField.text.toString(), password.text.toString())
 
-
                 if (userExist) {
+                    Log.d("LoginActivity", "User exists, proceeding to MainActivity")
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                 } else {
+                    Log.d("LoginActivity", "User does not exist, showing error")
                     Toast.makeText(this, "Informações de login incorretas.", Toast.LENGTH_SHORT).show()
                 }
 
             } else {
                 Toast.makeText(this, "Por favor, preencha todos os campos", Toast.LENGTH_SHORT).show()
             }
-
         }
+
 
         createAccount.setOnClickListener {
             val intent = Intent(this, SignUp::class.java)

@@ -11,5 +11,5 @@ data class User(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     var name: String,
     var password: String,
-    val filmes: MutableLiveData<MutableList<String>> = MutableLiveData(mutableListOf("a", "b", "c", "d", "e", "f", "g", "h", "i"))
+    var filmes: List<String> = listOf()
 )

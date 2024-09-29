@@ -11,7 +11,7 @@ data class MovieResponse(
 
 interface API {
     @GET("movie/popular")
-    
+
     fun getPopularMovies(
         @Query("api_key") apiKey: String,
         @Query("language") language: String = "pt-BR",
