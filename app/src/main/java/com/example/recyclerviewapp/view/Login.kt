@@ -12,7 +12,6 @@ import com.example.recyclerviewapp.R
 import com.example.recyclerviewapp.model.UserSingleton
 import com.example.recyclerviewapp.viewmodel.LoginViewModel
 import com.example.recyclerviewapp.viewmodel.LoginViewModelFactory
-import com.example.recyclerviewapp.viewmodel.MainViewModelFactory
 
 class Login : AppCompatActivity() {
 

@@ -1,8 +1,7 @@
 package com.example.recyclerviewapp.model
 
 import android.content.Context
-import com.example.recyclerviewapp.model.Singleton.cities
-import com.example.recyclerviewapp.model.Singleton.dao
+
 
 object UserSingleton {
     var user: User? = null

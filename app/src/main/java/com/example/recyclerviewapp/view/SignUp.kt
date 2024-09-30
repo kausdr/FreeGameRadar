@@ -9,16 +9,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.databinding.DataBindingUtil
 import com.example.recyclerviewapp.R
-import com.example.recyclerviewapp.databinding.ActivityMainBinding
-import com.example.recyclerviewapp.model.City
-import com.example.recyclerviewapp.model.Singleton
 import com.example.recyclerviewapp.model.User
 import com.example.recyclerviewapp.model.UserSingleton
 import com.example.recyclerviewapp.viewmodel.LoginViewModel
 import com.example.recyclerviewapp.viewmodel.LoginViewModelFactory
-import com.example.recyclerviewapp.viewmodel.MainViewModelFactory
 
 class SignUp : AppCompatActivity() {
     private lateinit var loginViewModel: LoginViewModel
